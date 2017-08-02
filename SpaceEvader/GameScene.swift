@@ -12,7 +12,7 @@ import GameplayKit
 class GameScene: SKScene {
     
     let hero = SKSpriteNode(imageNamed: "Spaceship")
-    
+    let heroSpeed: CGFloat = 100.0
     override func didMove(to view: SKView) {
         
         backgroundColor = SKColor.green
@@ -26,8 +26,69 @@ class GameScene: SKScene {
         hero.position = CGPoint(x: xCoord, y: yCoord)
         
         addChild(hero)
+        
+
+        
+        let swipeUp: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipedUp))
+        
+        swipeUp.direction = .up
+        
+        view.addGestureRecognizer(swipeUp)
+        
+        let swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipedDown))
+        
+        swipeDown.direction = .down
+        
+        view.addGestureRecognizer(swipeDown)
+        
+        let swipeLeft: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipedLeft))
+        
+        swipeLeft.direction = .left
+        
+        view.addGestureRecognizer(swipeLeft)
+        
+        let swipeRight: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipedRight))
+        
+        swipeRight.direction = .right
+        
+        view.addGestureRecognizer(swipeRight)
+        
     }
     
+    
+    func swipedUp(sender:UISwipeGestureRecognizer){
+        
+        print("Up")
+        
+        var actionMove: SKAction
+        actionMove = SKAction.move(to: CGPoint (x: hero.position.x, y: hero.position.y + heroSpeed), duration: 1)
+        hero.run(actionMove)
+    }
+    
+    func swipedDown(sender:UISwipeGestureRecognizer){
+        
+        print("Down")
+        
+        var actionMove: SKAction
+        actionMove = SKAction.move(to: CGPoint (x: hero.position.x, y: hero.position.y - heroSpeed), duration: 1)
+        hero.run(actionMove)
+    }
+    func swipedLeft(sender:UISwipeGestureRecognizer){
+        
+        print("Left")
+        
+        var actionMove: SKAction
+        actionMove = SKAction.move(to: CGPoint (x: hero.position.x - heroSpeed, y: hero.position.y), duration: 1)
+        hero.run(actionMove)
+    }
+    func swipedRight(sender:UISwipeGestureRecognizer){
+        
+        print("Right")
+        
+        var actionMove: SKAction
+        actionMove = SKAction.move(to: CGPoint (x: hero.position.x  + heroSpeed, y: hero.position.y), duration: 1)
+        hero.run(actionMove)
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     
@@ -43,7 +104,7 @@ class GameScene: SKScene {
         
         bullet.color = UIColor.red
 
-        bullet.size = CGSize(width: 5, height: 5)
+        bullet.size = CGSize(width: 10, height: 10)
         
         bullet.position = CGPoint(x: hero.position.x, y: hero.position.y)
         
